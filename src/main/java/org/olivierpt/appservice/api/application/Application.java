@@ -2,21 +2,21 @@ package org.olivierpt.appservice.api.application;
 
 public class Application {
 
-    private Integer id;
+    private String id;
     private String name;
     private String DockerImage;
 
-    public Application(Integer id, String name, String dockerImage) {
+    public Application(String id, String name, String dockerImage) {
         this.id = id;
         this.name = name;
         DockerImage = dockerImage;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
