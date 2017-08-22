@@ -35,7 +35,7 @@ dependencyManagement {
 
 dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '1.5.6.RELEASE'
-    compile 'com.amazonaws:aws-java-sdk'
+    //compile 'com.amazonaws:aws-java-sdk'
     compile 'com.amazonaws:aws-java-sdk-dynamodb'
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
