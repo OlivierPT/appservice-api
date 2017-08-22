@@ -4,12 +4,15 @@ public class Application {
 
     private String id;
     private String name;
-    private String DockerImage;
+    private String dockerImage;
+
+    public Application() {
+    }
 
     public Application(String id, String name, String dockerImage) {
         this.id = id;
         this.name = name;
-        DockerImage = dockerImage;
+        this.dockerImage = dockerImage;
     }
 
     public String getId() {
@@ -29,11 +32,11 @@ public class Application {
     }
 
     public String getDockerImage() {
-        return DockerImage;
+        return dockerImage;
     }
 
     public void setDockerImage(String dockerImage) {
-        DockerImage = dockerImage;
+        this.dockerImage = dockerImage;
     }
 }
 
