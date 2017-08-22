@@ -84,10 +84,10 @@ public class ApplicationController {
         try {
             ddb.deleteItem("AppService.Application", item_values);
         } catch (ResourceNotFoundException e) {
-            System.err.format("Error: The table \"%s\" can't be found.\n", "AppService.Application");
-            System.err.println("Be sure that it exists and that you've typed its name correctly!");
+            logger.error("Error: The table \"{}\" can't be found.", "AppService.Application");
+            logger.error("Be sure that it exists and that you've typed its name correctly!");
         } catch (AmazonServiceException e) {
-            System.err.println(e.getMessage());
+            logger.error("",e);
         }
 
         chrono.stop();
