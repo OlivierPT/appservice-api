@@ -22,6 +22,13 @@ public class ApplicationController {
 
     Logger logger = LoggerFactory.getLogger(ApplicationController.class);
 
+    /**
+     * Create an application configuration
+     *
+     * @param user
+     * @param newApp
+     * @return
+     */
     @RequestMapping(value = "/app", method = RequestMethod.POST)
     public Application createApplication(
             @RequestHeader(value = "X-Authent") String user,
@@ -46,6 +53,12 @@ public class ApplicationController {
         return newApp;
     }
 
+    /**
+     * Delete an Application configuration
+     *
+     * @param user
+     * @param appId
+     */
     @RequestMapping(value = "/app/{appId}", method = RequestMethod.DELETE)
     public void deleteApp( @RequestHeader(value = "X-Authent") String user,
                            @PathVariable String appId) {
