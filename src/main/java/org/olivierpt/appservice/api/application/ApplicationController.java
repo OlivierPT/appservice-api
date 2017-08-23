@@ -3,6 +3,7 @@ package org.olivierpt.appservice.api.application;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ResourceNotFoundException;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -10,7 +11,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.olivierpt.appservice.api.utils.Chrono;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -31,33 +31,14 @@ public class ApplicationController {
         Chrono chrono = new Chrono();
         chrono.start();
 
-        AmazonDynamoDB ddb = AmazonDynamoDBClientBuilder.standard()
+        AmazonDynamoDB dynamoDbClient = AmazonDynamoDBClientBuilder.standard()
                 .withRegion(EU_WEST_1)
                 .build();
 
+        DynamoDBMapper mapper = new DynamoDBMapper(dynamoDbClient);
 
+        mapper.save(newApp);
 
-        HashMap<String, AttributeValue> item_values =
-                new HashMap<String, AttributeValue>();
-
-        item_values.put("appId", new AttributeValue(newApp.getId()));
-
-        try {
-            item_values.put("application", new AttributeValue(new ObjectMapper().writeValueAsString(newApp)));
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            ddb.putItem("AppService.Application", item_values);
-        } catch (ResourceNotFoundException e) {
-            System.err.format("Error: The table \"%s\" can't be found.\n", "AppService.Application");
-            System.err.println("Be sure that it exists and that you've typed its name correctly!");
-            System.exit(1);
-        } catch (AmazonServiceException e) {
-            System.err.println(e.getMessage());
-            System.exit(1);
-        }
 
         chrono.stop();
         logger.debug("End Create Application in {}ms", chrono.getDurationMs());
@@ -73,22 +54,16 @@ public class ApplicationController {
         Chrono chrono = new Chrono();
         chrono.start();
 
-        AmazonDynamoDB ddb = AmazonDynamoDBClientBuilder.standard()
+        AmazonDynamoDB dynamoDbClient = AmazonDynamoDBClientBuilder.standard()
                 .withRegion(EU_WEST_1)
                 .build();
 
-        HashMap<String, AttributeValue> item_values =
-                new HashMap<String, AttributeValue>();
-        item_values.put("appId", new AttributeValue(appId));
+        DynamoDBMapper mapper = new DynamoDBMapper(dynamoDbClient);
 
-        try {
-            ddb.deleteItem("AppService.Application", item_values);
-        } catch (ResourceNotFoundException e) {
-            logger.error("Error: The table \"{}\" can't be found.", "AppService.Application");
-            logger.error("Be sure that it exists and that you've typed its name correctly!");
-        } catch (AmazonServiceException e) {
-            logger.error("",e);
-        }
+        Application application = new Application();
+        application.setAppId(appId);
+
+        mapper.delete(application);
 
         chrono.stop();
         logger.debug("End Delete Application in {}ms", chrono.getDurationMs());

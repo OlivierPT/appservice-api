@@ -1,26 +1,31 @@
 package org.olivierpt.appservice.api.application;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+
+@DynamoDBTable(tableName="AppService.Application")
 public class Application {
 
-    private String id;
+    private String appId;
     private String name;
     private String dockerImage;
 
     public Application() {
     }
 
-    public Application(String id, String name, String dockerImage) {
-        this.id = id;
+    public Application(String appId, String name, String dockerImage) {
+        this.appId = appId;
         this.name = name;
         this.dockerImage = dockerImage;
     }
 
-    public String getId() {
-        return id;
+    @DynamoDBHashKey(attributeName="appId")
+    public String getAppId() {
+        return appId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setAppId(String appId) {
+        this.appId = appId;
     }
 
     public String getName() {
