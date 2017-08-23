@@ -1,35 +1,47 @@
 package org.olivierpt.appservice.api.job;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+
+@DynamoDBTable(tableName="AppService.Job")
 public class Job {
 
-    private String id;
-    private String appName;
+    private String jobId;
+    private String appId;
+    private String appVersion;
+    private String exectuionParameters;
     private Integer port;
     private String passwd;
     private String user;
 
-    public Job(String id, String appName, Integer port, String passwd, String user) {
-        this.id = id;
-        this.appName = appName;
+    public Job() {
+    }
+
+    public Job(String jobId, String appId, String appVersion, String exectuionParameters, Integer port, String passwd, String user) {
+        this.jobId = jobId;
+        this.appId = appId;
+        this.appVersion = appVersion;
+        this.exectuionParameters = exectuionParameters;
         this.port = port;
         this.passwd = passwd;
         this.user = user;
     }
 
-    public String getId() {
-        return id;
+    @DynamoDBHashKey(attributeName="jobId")
+    public String getJobId() {
+        return jobId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setJobId(String jobId) {
+        this.jobId = jobId;
     }
 
-    public String getAppName() {
-        return appName;
+    public String getAppId() {
+        return appId;
     }
 
-    public void setAppName(String appName) {
-        this.appName = appName;
+    public void setAppId(String appId) {
+        this.appId = appId;
     }
 
     public Integer getPort() {
@@ -54,5 +66,21 @@ public class Job {
 
     public void setUser(String user) {
         this.user = user;
+    }
+
+    public String getAppVersion() {
+        return appVersion;
+    }
+
+    public void setAppVersion(String appVersion) {
+        this.appVersion = appVersion;
+    }
+
+    public String getExectuionParameters() {
+        return exectuionParameters;
+    }
+
+    public void setExectuionParameters(String exectuionParameters) {
+        this.exectuionParameters = exectuionParameters;
     }
 }
