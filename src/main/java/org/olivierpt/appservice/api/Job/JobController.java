@@ -1,4 +1,4 @@
-package org.olivierpt.appservice.api.Job;
+package org.olivierpt.appservice.api.job;
 
 import org.springframework.web.bind.annotation.*;
 

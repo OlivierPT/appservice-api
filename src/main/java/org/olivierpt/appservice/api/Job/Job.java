@@ -1,6 +1,4 @@
-package org.olivierpt.appservice.api.Job;
-
-import org.olivierpt.appservice.api.application.Application;
+package org.olivierpt.appservice.api.job;
 
 public class Job {
 
