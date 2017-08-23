@@ -20,10 +20,31 @@ public class JobController {
 
     Logger logger = LoggerFactory.getLogger(JobController.class);
 
-    @RequestMapping(value = "/job",method = RequestMethod.GET)
+    /**
+     * Find a Job from its jobId
+     * @param user
+     * @param jobId
+     * @return
+     */
+    @RequestMapping(value = "/job/{jobId}",method = RequestMethod.GET)
     public Job getJob(@RequestHeader(value = "X-Authent", required = true) String user,
-                        @RequestParam(value="appName", required = true) String appName) {
-        return null;
+                      @PathVariable String jobId) {
+
+        logger.debug("START - Find a Job");
+        Chrono chrono = new Chrono();
+        chrono.start();
+
+        AmazonDynamoDB dynamoDbClient = AmazonDynamoDBClientBuilder.standard()
+                .withRegion(EU_WEST_1)
+                .build();
+
+        DynamoDBMapper mapper = new DynamoDBMapper(dynamoDbClient);
+
+        Job job = mapper.load(Job.class, jobId);
+
+        chrono.stop();
+        logger.debug("END - Find a Job in {}ms", chrono.getDurationMs());
+        return job;
     }
 
     /**
@@ -61,4 +82,6 @@ public class JobController {
 
         return jobTemplate;
     }
+
+
 }
